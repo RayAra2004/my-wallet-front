@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { styled } from "styled-components"
 
 export default function Login(){
@@ -10,7 +11,9 @@ export default function Login(){
                     <input placeholder="Senha"/>
                     <button>Entrar</button>
                 </SCFormLogin>
-                <SCTextSignUp>Primeira vez? Cadastre-se!</SCTextSignUp>
+                <Link to={'/cadastro'}>
+                    <SCTextSignUp>Primeira vez? Cadastre-se!</SCTextSignUp>
+                </Link>
             </div>
         </SCLogin>
     )
