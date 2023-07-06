@@ -1,17 +1,40 @@
-import { Link } from "react-router-dom"
+import axios from "axios";
+import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 
 export default function Cadastro(){
+
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
+    const navigate = useNavigate();
+
+    function cadastrar(e){
+        e.preventDefault();
+
+        if(password !== confirmPassword){
+            alert("As senhas devem ser iguais");
+            return;
+        }
+
+        axios.post('http://127.0.0.1:5000/sign-up', {name, email, password})
+            .then(res => navigate('/'))
+            .catch(res => alert(res.message))
+    }
+
     return(
         <SCSignUp>
             <div>
                 <SCName>MyWallet</SCName>
-                <SCFormSignUp>
-                    <input placeholder="Nome"/>
-                    <input placeholder="E-mail"/>
-                    <input placeholder="Senha"/>
-                    <input placeholder="Confirme a senha"/>
-                    <button>Cadastar</button>
+                <SCFormSignUp onSubmit={cadastrar}>
+                    <input placeholder="Nome" value={name} onChange={ e => setName(e.target.value)}/>
+                    <input placeholder="E-mail" type="email" value={email} onChange={ e => setEmail(e.target.value)}/>
+                    <input placeholder="Senha" type="password" value={password} onChange={ e => setPassword(e.target.value)}/>
+                    <input placeholder="Confirme a senha" type="password" value={confirmPassword} onChange={ e => setConfirmPassword(e.target.value)}/>
+                    <button>Cadastrar</button>
                 </SCFormSignUp>
                 <Link to={'/'}>
                     <SCTextSignIn>Já tem conta? Entre agora!</SCTextSignIn>
