@@ -1,10 +1,12 @@
 import { useContext } from "react"
 import { styled } from "styled-components"
 import { Token } from "../resources/token.context"
+import { useNavigate } from "react-router-dom";
 
 export default function Home(){
 
     const [token, setToken] = useContext(Token);
+    const navigate = useNavigate();
 
     const config = {
         headers: {
@@ -28,11 +30,11 @@ export default function Home(){
                 </SCBalance>
             </SCRegistryBody>
             <SCTransaction>
-                <div>
+                <div onClick={()=> {navigate('/nova-transacao/entrada')}}>
                     <ion-icon name="add-circle-outline"></ion-icon>
                     <p>Nova<br/>entrada</p>
                 </div>
-                <div>
+                <div onClick={()=> {navigate('/nova-transacao/saida')}}>
                     <ion-icon name="remove-circle-outline"></ion-icon>
                     <p>Nova<br/>saída</p>
                 </div>
