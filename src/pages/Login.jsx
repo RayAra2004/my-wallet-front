@@ -1,14 +1,36 @@
+import axios from "axios";
+import { useContext, useState } from "react"
 import { Link } from "react-router-dom"
 import { styled } from "styled-components"
+import { Token } from "../resources/token.context";
 
 export default function Login(){
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [token, setToken] = useContext(Token);
+
+    function salvaToken(tokenDB, data){
+        const t = `Bearer ${tokenDB}`;
+        setToken(t);
+        localStorage.setItem(data.id, t);
+    }
+
+    function login(e){
+        e.preventDefault();
+
+        axios.post('http://127.0.0.1:5000/sign-in', {email, password})
+            .then(res => salvaToken(res.data.token, res.data))
+            .catch(res => alert(res.message))
+    }
+
     return(
         <SCLogin>
             <div>
                 <SCName>MyWallet</SCName>
-                <SCFormLogin>
-                    <input placeholder="E-mail"/>
-                    <input placeholder="Senha"/>
+                <SCFormLogin onSubmit={login}>
+                    <input placeholder="E-mail" type="email" value={email} onChange={e => setEmail(e.target.value)}/>
+                    <input placeholder="Senha" type="password" value={password} onChange={e => setPassword(e.target.value)}/>
                     <button>Entrar</button>
                 </SCFormLogin>
                 <Link to={'/cadastro'}>
