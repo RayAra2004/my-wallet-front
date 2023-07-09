@@ -20,7 +20,7 @@ export default function Cadastro(){
             return;
         }
         
-        axios.post(`${import.meta.env.VITE_API_URL}sign-up`, {name, email, password})
+        axios.post(`${import.meta.env.VITE_API_URL}/sign-up`, {name, email, password})
             .then(res => navigate('/'))
             .catch(res => alert(res.message))
     }

@@ -27,7 +27,7 @@ export default function Home(){
         }
 
 
-        axios.get(`${import.meta.env.VITE_API_URL}transactions`, config)
+        axios.get(`${import.meta.env.VITE_API_URL}/transactions`, config)
             .then(res => {
                 setData(res.data);
                 calcValue(res.data);

@@ -21,7 +21,7 @@ export default function Login(){
     function login(e){
         e.preventDefault();
 
-        axios.post(`${import.meta.env.VITE_API_URL}sign-in`, {email, password})
+        axios.post(`${import.meta.env.VITE_API_URL}/sign-in`, {email, password})
             .then(res => salvaToken(res.data.token))
             .catch(res => alert(res.message))
     }

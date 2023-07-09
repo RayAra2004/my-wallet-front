@@ -38,7 +38,7 @@ export default function Transaction(){
         let t = text
         if(text === 'saída') t = 'saida'
         
-        axios.post(`${import.meta.env.VITE_API_URL}transaction/${t}`, {value: v, description}, config)
+        axios.post(`${import.meta.env.VITE_API_URL}/transaction/${t}`, {value: v, description}, config)
             .then(res => navigate('/home'))
             .catch(res => alert(res.message))
     }
