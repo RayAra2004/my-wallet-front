@@ -30,11 +30,11 @@ export default function Cadastro(){
             <div>
                 <SCName>MyWallet</SCName>
                 <SCFormSignUp onSubmit={cadastrar}>
-                    <input placeholder="Nome" value={name} onChange={ e => setName(e.target.value)}/>
-                    <input placeholder="E-mail" type="email" value={email} onChange={ e => setEmail(e.target.value)}/>
-                    <input placeholder="Senha" type="password" value={password} onChange={ e => setPassword(e.target.value)}/>
-                    <input placeholder="Confirme a senha" type="password" value={confirmPassword} onChange={ e => setConfirmPassword(e.target.value)}/>
-                    <button>Cadastrar</button>
+                    <input data-test="name" placeholder="Nome" value={name} onChange={ e => setName(e.target.value)}/>
+                    <input data-test="email" placeholder="E-mail" type="email" value={email} onChange={ e => setEmail(e.target.value)}/>
+                    <input data-test="password" placeholder="Senha" type="password" value={password} onChange={ e => setPassword(e.target.value)}/>
+                    <input data-test="conf-password" placeholder="Confirme a senha" type="password" value={confirmPassword} onChange={ e => setConfirmPassword(e.target.value)}/>
+                    <button data-test="sign-up-submit">Cadastrar</button>
                 </SCFormSignUp>
                 <Link to={'/'}>
                     <SCTextSignIn>Já tem conta? Entre agora!</SCTextSignIn>

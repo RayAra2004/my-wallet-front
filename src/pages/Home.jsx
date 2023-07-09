@@ -15,8 +15,7 @@ export default function Home(){
     useEffect(() =>{
         const t = localStorage.getItem('token');
         setToken(t)
-        
-        if(token === ''){
+        if(t === ''){
             navigate('/');
             return;
         } 
@@ -37,8 +36,8 @@ export default function Home(){
     }, [])
 
     function fillName(){
-        if(data === undefined) return <p>Olá, Fulano</p>
-        return <p>Olá, {data.name}</p>
+        if(data === undefined) return <p data-test="user-name">Olá, Fulano</p>
+        return <p data-test="user-name">Olá, {data.name}</p>
     }
 
     function registry(){
@@ -48,13 +47,13 @@ export default function Home(){
                     data.transactions.map(transaction =>
                         <SCItem key={transaction._id} type={transaction.type}>
                             <p>{transaction.date}</p>
-                            <span> {transaction.description}</span>
-                            <p>{(Number(transaction.value).toFixed(2)).replace('.', ',')}</p>
+                            <span data-test="registry-name"> {transaction.description}</span>
+                            <p data-test="registry-amount">{(Number(transaction.value).toFixed(2)).replace('.', ',')}</p>
                         </SCItem>
                     )
                 )
             }else{
-                return <p>Não há registros de entrada ou saída</p>
+                return <p data-test="registry-name">Não há registros de entrada ou saída</p>
             }
         }
          
@@ -83,7 +82,7 @@ export default function Home(){
         <SCHome>
             <SCHeader>
                 {fillName()}
-                <ion-icon name="exit-outline" onClick={logout}></ion-icon>
+                <ion-icon data-test="logout" name="exit-outline" onClick={logout}></ion-icon>
             </SCHeader>
             <SCRegistryBody>
                 <SCRegistry>
@@ -91,15 +90,15 @@ export default function Home(){
                 </SCRegistry>
                 <SCBalance active={data} sale={value}>
                     <p>Saldo</p>
-                    <p>{sale}</p>
+                    <p data-test="total-amount">{sale}</p>
                 </SCBalance>
             </SCRegistryBody>
             <SCTransaction>
-                <div onClick={()=> {navigate('/nova-transacao/entrada')}}>
+                <div data-test="nwe-income" onClick={()=> {navigate('/nova-transacao/entrada')}}>
                     <ion-icon name="add-circle-outline"></ion-icon>
                     <p>Nova<br/>entrada</p>
                 </div>
-                <div onClick={()=> {navigate('/nova-transacao/saida')}}>
+                <div data-test="new-expense" onClick={()=> {navigate('/nova-transacao/saida')}}>
                     <ion-icon name="remove-circle-outline"></ion-icon>
                     <p>Nova<br/>saída</p>
                 </div>
@@ -226,8 +225,7 @@ const SCBalance = styled.div`
 
     :last-child{
         color: ${props => {
-            console.log(props.value)
-            if(props.value >= 0){
+            if(props.sale >= 0){
                 return '#03AC00'
             }else{
                 return '#C70000'

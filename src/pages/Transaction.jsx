@@ -23,7 +23,7 @@ export default function Transaction(){
     }
 
     useEffect(() =>{
-        if(token === ''){
+        if(localStorage.getItem('token') === null){
             navigate('/');
             return;
         } 
@@ -43,13 +43,14 @@ export default function Transaction(){
             .catch(res => alert(res.message))
     }
 
+
     return(
         <SCTransaction>
             <p>Nova {text}</p>
             <form onSubmit={trasanction}>
-                <input placeholder="Valor" value={value} onChange={e => setValue(e.target.value)}/>
-                <input placeholder="Descrição" value={description} onChange={e => setDescription(e.target.value)}/>
-                <button>Salvar {text}</button>
+                <input data-test="registry-amount-input" placeholder="Valor" value={value} onChange={e => setValue(e.target.value)}/>
+                <input data-test="registry-name-input" placeholder="Descrição" value={description} onChange={e => setDescription(e.target.value)}/>
+                <button data-test="registry-save">Salvar {text}</button>
             </form>
 
         </SCTransaction>

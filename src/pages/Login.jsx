@@ -31,9 +31,9 @@ export default function Login(){
             <div>
                 <SCName>MyWallet</SCName>
                 <SCFormLogin onSubmit={login}>
-                    <input placeholder="E-mail" type="email" value={email} onChange={e => setEmail(e.target.value)}/>
-                    <input placeholder="Senha" type="password" value={password} onChange={e => setPassword(e.target.value)}/>
-                    <button>Entrar</button>
+                    <input data-test="email" placeholder="E-mail" type="email" value={email} onChange={e => setEmail(e.target.value)}/>
+                    <input data-test="password" placeholder="Senha" type="password" value={password} onChange={e => setPassword(e.target.value)}/>
+                    <button data-test="sign-in-submit">Entrar</button>
                 </SCFormLogin>
                 <Link to={'/cadastro'}>
                     <SCTextSignUp>Primeira vez? Cadastre-se!</SCTextSignUp>
