@@ -36,7 +36,7 @@ export default function Transaction(){
         
         axios.post(`${import.meta.env.VITE_API_URL}transaction/${t}`, {value: v, description}, config)
             .then(res => navigate('/home'))
-            .catch(res => console.log(res))
+            .catch(res => alert(res.message))
     }
 
     return(

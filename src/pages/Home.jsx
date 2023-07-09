@@ -1,37 +1,93 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { styled } from "styled-components"
 import { Token } from "../resources/token.context"
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Home(){
 
     const [token, setToken] = useContext(Token);
     const navigate = useNavigate();
+    const [data, setData] = useState(undefined);
+    const [value, setValue] = useState(0);
+    const [sale, setSale] = useState(0);
 
     useEffect(() =>{
+        const t = localStorage.getItem('token');
+        setToken(t)
+        
 
-        setToken(localStorage.getItem('token'))
+        const config = {
+            headers: {
+                "Authorization": `${t}`
+            }
+        }
+
+
+        axios.get(`${import.meta.env.VITE_API_URL}transactions`, config)
+            .then(res => {
+                setData(res.data);
+                calcValue(res.data);
+            })
+            .catch(res => alert(res.message))
     }, [])
 
-    const config = {
-        headers: {
-            "Authorization": `${token}`
+    function fillName(){
+        if(data === undefined) return <p>Olá, Fulano</p>
+        return <p>Olá, {data.name}</p>
+    }
+
+    function registry(){
+        if(data !== undefined){
+            if(data.transactions.length !== 0){
+                return(
+                    data.transactions.map(transaction =>
+                        <SCItem key={transaction._id} type={transaction.type}>
+                            <p>{transaction.date}</p>
+                            <span> {transaction.description}</span>
+                            <p>{(Number(transaction.value).toFixed(2)).replace('.', ',')}</p>
+                        </SCItem>
+                    )
+                )
+            }else{
+                return <p>Não há registros de entrada ou saída</p>
+            }
         }
+         
+    }
+
+    function calcValue(d){
+        let val = 0;
+        d.transactions.forEach(element => {
+            if(element.type === "entrada"){
+                val += Number(element.value);
+            }else{
+                val -= Number(element.value);
+            }
+        });
+        setValue(val);
+        setSale(String(val).replace('.', ','))
+    }
+
+    function logout(){
+        setToken('');
+        localStorage.removeItem('token');
+        navigate('/');
     }
 
     return(
         <SCHome>
             <SCHeader>
-                <p>Olá, Fulano</p>
-                <ion-icon name="exit-outline"></ion-icon>
+                {fillName()}
+                <ion-icon name="exit-outline" onClick={logout}></ion-icon>
             </SCHeader>
             <SCRegistryBody>
                 <SCRegistry>
-                    <p>Não há registros de entrada ou saída</p>      
+                    {registry()}
                 </SCRegistry>
-                <SCBalance>
+                <SCBalance active={data} sale={value}>
                     <p>Saldo</p>
-                    <p> valor</p>
+                    <p>{sale}</p>
                 </SCBalance>
             </SCRegistryBody>
             <SCTransaction>
@@ -90,6 +146,7 @@ const SCRegistryBody = styled.div`
 `
 const SCRegistry = styled.div`
     overflow-y: scroll;
+    width: 100%;
     p{
         font-family: 'Raleway', cursive;
         font-size: 20px;
@@ -98,8 +155,56 @@ const SCRegistry = styled.div`
         color: #868686;
     }
 `
-const SCBalance = styled.div`
+
+const SCItem = styled.div`
     display: flex;
+    position: relative;
+    margin-bottom: 10px;
+    :first-child{
+        font-family: 'Raleway', cursive;
+        font-size: 16px;
+        line-height: 19px;
+        font-weight: 400;
+        color: #C6C6C6;
+        width: 60px;
+        margin-left: 5px;
+    }
+
+    span{
+        font-family: 'Raleway', cursive;
+        font-size: 16px;
+        line-height: 19px;
+        font-weight: 400;
+        color: #000000;
+        width: 200px;
+    }
+
+    :last-child{
+        font-family: 'Raleway', cursive;
+        font-size: 16px;
+        line-height: 19px;
+        font-weight: 400;
+        margin-right: 10px;
+        color: ${props => {
+            if(props.type === 'saida'){
+                return '#C70000'
+            }else{
+                return '#03AC00'
+            }
+        }};
+    }
+`
+
+const SCBalance = styled.div`
+    display: ${props => { //TODO: Errado, quando não tem transação
+        if(props.active !== undefined){
+            if(props.active.transactions === 0){ 
+                return 'none'
+            }else{
+                return 'flex'
+            }
+        }
+        }};
     justify-content: space-between;
     width: 100%;
     padding-left: 10px;
@@ -113,6 +218,17 @@ const SCBalance = styled.div`
         line-height: 20px;
         font-weight: 700;
         color: #000000;
+    }
+
+    :last-child{
+        color: ${props => {
+            console.log(props.value)
+            if(props.value >= 0){
+                return '#03AC00'
+            }else{
+                return '#C70000'
+            }
+        }}
     }
 `
 
