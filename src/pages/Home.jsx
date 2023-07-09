@@ -16,6 +16,10 @@ export default function Home(){
         const t = localStorage.getItem('token');
         setToken(t)
         
+        if(token === ''){
+            navigate('/');
+            return;
+        } 
 
         const config = {
             headers: {

@@ -23,6 +23,10 @@ export default function Transaction(){
     }
 
     useEffect(() =>{
+        if(token === ''){
+            navigate('/');
+            return;
+        } 
 
         setToken(localStorage.getItem('token'))
     }, [])
