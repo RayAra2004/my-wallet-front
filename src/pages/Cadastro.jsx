@@ -19,8 +19,8 @@ export default function Cadastro(){
             alert("As senhas devem ser iguais");
             return;
         }
-
-        axios.post('http://127.0.0.1:5000/sign-up', {name, email, password})
+        
+        axios.post(`${import.meta.env.VITE_API_URL}sign-up`, {name, email, password})
             .then(res => navigate('/'))
             .catch(res => alert(res.message))
     }

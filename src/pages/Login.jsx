@@ -11,18 +11,18 @@ export default function Login(){
     const [token, setToken] = useContext(Token);
     const navigate = useNavigate();
 
-    function salvaToken(tokenDB, data){
+    function salvaToken(tokenDB){
         const t = `Bearer ${tokenDB}`;
         setToken(t);
-        localStorage.setItem(data.id, t);
+        localStorage.setItem('token', t);
         navigate('/home');
     }
 
     function login(e){
         e.preventDefault();
 
-        axios.post('http://127.0.0.1:5000/sign-in', {email, password})
-            .then(res => salvaToken(res.data.token, res.data))
+        axios.post(`${import.meta.env.VITE_API_URL}sign-in`, {email, password})
+            .then(res => salvaToken(res.data.token))
             .catch(res => alert(res.message))
     }
 

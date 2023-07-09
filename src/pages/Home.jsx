@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { styled } from "styled-components"
 import { Token } from "../resources/token.context"
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,11 @@ export default function Home(){
 
     const [token, setToken] = useContext(Token);
     const navigate = useNavigate();
+
+    useEffect(() =>{
+
+        setToken(localStorage.getItem('token'))
+    }, [])
 
     const config = {
         headers: {
