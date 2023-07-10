@@ -94,7 +94,7 @@ export default function Home(){
                 </SCBalance>
             </SCRegistryBody>
             <SCTransaction>
-                <div data-test="nwe-income" onClick={()=> {navigate('/nova-transacao/entrada')}}>
+                <div data-test="new-income" onClick={()=> {navigate('/nova-transacao/entrada')}}>
                     <ion-icon name="add-circle-outline"></ion-icon>
                     <p>Nova<br/>entrada</p>
                 </div>
