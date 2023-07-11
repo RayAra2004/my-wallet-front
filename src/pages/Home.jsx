@@ -15,7 +15,8 @@ export default function Home(){
     useEffect(() =>{
         const t = localStorage.getItem('token');
         setToken(t)
-        if(t === ''){
+
+        if(t === '' || t === null){
             navigate('/');
             return;
         } 
