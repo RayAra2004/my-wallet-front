@@ -47,7 +47,7 @@ export default function Home(){
                     data.transactions.map(transaction =>
                         <SCItem key={transaction._id} type={transaction.type}>
                             <p>{transaction.date}</p>
-                            <span data-test="registry-name"> {transaction.description}</span>
+                            <span data-test="registry-name">{transaction.description}</span>
                             <p data-test="registry-amount">{(Number(transaction.value).toFixed(2)).replace('.', ',')}</p>
                         </SCItem>
                     )
